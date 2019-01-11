@@ -1,0 +1,11 @@
+<xs:schema
+    targetNamespace="http://www.nuxeo.org/ecm/schemas/sharing/"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:nxs="http://www.nuxeo.org/ecm/schemas/sharing/">
+
+    <xs:include schemaLocation="base.xsd" />
+    
+    <xs:element name="linkId" type="xs:string" />
+    <xs:element name="linkPermission" type="xs:string" />
+
+</xs:schema>

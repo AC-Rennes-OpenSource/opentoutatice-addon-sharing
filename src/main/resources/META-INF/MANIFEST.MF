@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-Category: stateful
+Bundle-Name: OpenToutatice sharing addon
+Bundle-Localization: plugin
+Bundle-ManifestVersion: 1
+Bundle-SymbolicName: org.osivia.opentoutatice.addon.sharing;singleton:=true
+Nuxeo-Component: OSGI-INF/extensions/types-contrib.xml
