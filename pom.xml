@@ -18,6 +18,25 @@
     </properties>
     
     
+    <dependencies>
+    
+        <!-- Nuxeo -->
+        <dependency>
+            <groupId>org.nuxeo.ecm.automation</groupId>
+            <artifactId>nuxeo-automation-core</artifactId>
+            <version>${nuxeo.version}</version>
+        </dependency>
+        
+        <!-- OpenToutatice -->
+        <dependency>
+            <groupId>opentoutatice-ecm.platform</groupId>
+            <artifactId>opentoutatice-ecm-platform-core</artifactId>
+            <version>${opentoutatice.version}</version>
+        </dependency>
+        
+    </dependencies>
+    
+    
     <build>
         <pluginManagement>
             <plugins>
@@ -29,8 +48,8 @@
                     <version>3.8.0</version>
                     <configuration>
                         <encoding>UTF-8</encoding>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>1.7</source>
+                        <target>1.7</target>
                     </configuration>
                 </plugin>
                 

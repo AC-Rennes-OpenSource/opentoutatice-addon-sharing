@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component name="org.osivia.opentoutatice.addon.sharing.operations">
+
+    <extension target="org.nuxeo.ecm.core.operation.OperationServiceComponent" point="operations">
+        <operation class="org.osivia.opentoutatice.sharing.operation.EnableSharing" />
+        <operation class="org.osivia.opentoutatice.sharing.operation.DisableSharing" />
+    </extension>
+    
+</component>
