@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component name="org.osivia.opentoutatice.addon.sharing.elasticsearch">
+
+    <extension target="org.nuxeo.elasticsearch.ElasticSearchComponent" point="elasticSearchDocWriter">
+        <writer class="org.osivia.opentoutatice.sharing.elasticsearch.SharingJsonESDocumentWriter" />
+    </extension>
+    
+</component>

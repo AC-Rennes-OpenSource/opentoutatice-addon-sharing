@@ -17,6 +17,9 @@ public class SharingConstants {
     /** Sharing link permission Nuxeo document property. */
     public static final String SHARING_LINK_PERMISSION_PROPERTY = "sharing:linkPermission";
 
+    /** Sharing users Nuxeo document denormalized property. */
+    public static final String SHARING_USERS_DENORMALIZED_PROPERTY = "sharing:users";
+
 
     /**
      * Constructor.
