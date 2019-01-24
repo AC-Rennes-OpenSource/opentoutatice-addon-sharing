@@ -9,34 +9,38 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
 /**
- * Enable sharing operation.
+ * Update sharing permissions operation.
  * 
  * @author Cédric Krommenhoek
  */
-@Operation(id = EnableSharing.ID, category = Constants.CAT_DOCUMENT, label = "Enable sharing")
-public class EnableSharing {
+@Operation(id = UpdateSharingPermissions.ID, category = Constants.CAT_DOCUMENT, label = "Update sharing permissions")
+public class UpdateSharingPermissions {
 
     /** Operation identifier. */
-    public static final String ID = "Document.EnableSharing";
-    
-    
+    public static final String ID = "Document.UpdateSharingPermissions";
+
+
     /** Core session. */
     @Context
     private CoreSession session;
 
-    /** Link identifier. */
-    @Param(name = "linkId", required = true, description = "Link identifier")
-    private String linkId;
-
     /** Sharing permission. */
-    @Param(name = "permission", required = true, description = "Sharing permission")
+    @Param(name = "permission", required = false, description = "Sharing permission")
     private String permission;
+
+    /** User. */
+    @Param(name = "user", required = false, description = "User")
+    private String user;
+
+    /** Add or remove permissions indicator. */
+    @Param(name = "add", required = false, description = "Add or remove permissions indicator")
+    private Boolean add;
 
 
     /**
      * Constructor.
      */
-    public EnableSharing() {
+    public UpdateSharingPermissions() {
         super();
     }
 
@@ -48,7 +52,7 @@ public class EnableSharing {
      */
     @OperationMethod
     public void run(DocumentModel document) {
-        SharingRunner runner = new EnableSharingRunner(this.session, document, this.linkId, this.permission);
+        SharingRunner runner = new UpdateSharingPermissionsRunner(this.session, document, this.permission, this.user, this.add);
         runner.silentRun(false);
     }
 

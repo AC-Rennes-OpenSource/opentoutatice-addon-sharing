@@ -14,10 +14,6 @@ import fr.toutatice.ecm.platform.core.helper.ToutaticeSilentProcessRunnerHelper;
  */
 public abstract class SharingRunner extends ToutaticeSilentProcessRunnerHelper {
 
-    /** Sharing facet. */
-    public static final String FACET = "Sharing";
-
-
     /** Document. */
     protected final DocumentModel document;
 
