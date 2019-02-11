@@ -1,5 +1,7 @@
 package org.osivia.opentoutatice.sharing.operation;
 
+import java.security.Principal;
+
 import org.nuxeo.ecm.automation.core.Constants;
 import org.nuxeo.ecm.automation.core.annotations.Context;
 import org.nuxeo.ecm.automation.core.annotations.Operation;
@@ -48,7 +50,17 @@ public class EnableSharing {
      */
     @OperationMethod
     public void run(DocumentModel document) {
-        SharingRunner runner = new EnableSharingRunner(this.session, document, this.linkId, this.permission);
+        // Sharing author
+        Principal principal = this.session.getPrincipal();
+        String author;
+        if (principal == null) {
+            author = null;
+        } else {
+            author = principal.getName();
+        }
+
+        // Silent run
+        SharingRunner runner = new EnableSharingRunner(this.session, document, author, this.linkId, this.permission);
         runner.silentRun(false);
     }
 

@@ -5,7 +5,9 @@
 
     <xs:include schemaLocation="base.xsd" />
     
+    <xs:element name="author" type="xs:string" />
     <xs:element name="linkId" type="xs:string" />
     <xs:element name="linkPermission" type="xs:string" />
+    <xs:element name="bannedUsers" type="nxs:stringList" />
 
 </xs:schema>

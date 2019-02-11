@@ -16,6 +16,8 @@ import org.osivia.opentoutatice.sharing.SharingConstants;
  */
 public class EnableSharingRunner extends SharingRunner {
 
+    /** Sharing author. */
+    private final String author;
     /** Sharing link identifier. */
     private final String linkId;
     /** Sharing link permission. */
@@ -27,11 +29,13 @@ public class EnableSharingRunner extends SharingRunner {
      * 
      * @param session core session
      * @param document document
+     * @param author sharing author
      * @param linkId sharing link identifier
      * @param permission sharing link permission
      */
-    public EnableSharingRunner(CoreSession session, DocumentModel document, String linkId, String permission) {
+    public EnableSharingRunner(CoreSession session, DocumentModel document, String author, String linkId, String permission) {
         super(session, document);
+        this.author = author;
         this.linkId = linkId;
         this.permission = permission;
     }
@@ -47,8 +51,9 @@ public class EnableSharingRunner extends SharingRunner {
 
         // Set properties
         try {
-            DocumentHelper.setProperty(this.session, this.document, SharingConstants.SHARING_LINK_ID_PROPERTY, this.linkId);
-            DocumentHelper.setProperty(this.session, this.document, SharingConstants.SHARING_LINK_PERMISSION_PROPERTY, this.permission);
+            DocumentHelper.setProperty(this.session, this.document, SharingConstants.SHARING_AUTHOR_XPATH, this.author);
+            DocumentHelper.setProperty(this.session, this.document, SharingConstants.SHARING_LINK_ID_XPATH, this.linkId);
+            DocumentHelper.setProperty(this.session, this.document, SharingConstants.SHARING_LINK_PERMISSION_XPATH, this.permission);
         } catch (IOException e) {
             throw new ClientException(e);
         }

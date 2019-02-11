@@ -7,14 +7,14 @@
     
     <groupId>opentoutatice-ecm.sharing</groupId>
     <artifactId>opentoutatice-sharing</artifactId>
-    <version>4.6-SNAPSHOT</version>
+    <version>4.7-SNAPSHOT</version>
     
     <name>OpenToutatice - Sharing addon</name>
     
     
     <properties>
         <nuxeo.version>6.0-HF45</nuxeo.version>
-        <opentoutatice.version>4.6-SNAPSHOT</opentoutatice.version>
+        <opentoutatice.version>4.7-SNAPSHOT</opentoutatice.version>
     </properties>
     
     
@@ -97,6 +97,18 @@
         <developerConnection>scm:git:ssh://git@github.com/osivia/opentoutatice-addon-sharing.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
+    
+    
+    <distributionManagement>
+        <repository>
+            <id>osivia-releases</id>
+            <url>http://www.osivia.org/nexus/content/repositories/osivia-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>osivia-snapshots</id>
+            <url>http://www.osivia.org/nexus/content/repositories/osivia-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
     
     
     <organization>

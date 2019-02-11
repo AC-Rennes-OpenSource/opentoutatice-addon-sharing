@@ -15,6 +15,8 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentRef;
+import org.nuxeo.ecm.core.api.model.Property;
+import org.nuxeo.ecm.core.api.model.impl.ListProperty;
 import org.nuxeo.ecm.core.api.security.ACE;
 import org.nuxeo.ecm.core.api.security.ACL;
 import org.nuxeo.ecm.core.api.security.ACP;
@@ -63,7 +65,7 @@ public class UpdateSharingPermissionsRunner extends SharingRunner {
         ACP acp = this.session.getACP(ref);
         // Sharing access control list
         ACL acl = acp.getOrCreateACL(SharingConstants.ACL);
-        
+
         if (StringUtils.isEmpty(this.user) && StringUtils.isEmpty(this.permission) && BooleanUtils.isFalse(this.add)) {
             // Remove sharing access control list
             acp.removeACL(SharingConstants.ACL);
@@ -88,18 +90,58 @@ public class UpdateSharingPermissionsRunner extends SharingRunner {
 
             // Update document
             try {
-                DocumentHelper.setProperty(this.session, this.document, SharingConstants.SHARING_LINK_PERMISSION_PROPERTY, this.permission);
+                DocumentHelper.setProperty(this.session, this.document, SharingConstants.SHARING_LINK_PERMISSION_XPATH, this.permission);
             } catch (IOException e) {
                 throw new ClientException(e);
             }
-        } else if (StringUtils.isNotEmpty(this.user) && StringUtils.isEmpty(this.permission) && BooleanUtils.isFalse(this.add)) {
+        } else if (StringUtils.isNotEmpty(this.user) && BooleanUtils.isFalse(this.add)) {
             // Remove user permission
             this.removeUserAce(acl, this.user);
-        } else if (StringUtils.isNotEmpty(this.user) && StringUtils.isNotEmpty(this.permission) && BooleanUtils.isNotFalse(this.add)) {
-            // Add or update user permission
-            this.removeUserAce(acl, this.user);
-            ACE ace = new ACE(this.user, this.permission);
-            acl.add(ace);
+
+            if (!this.isBannedUser()) {
+                // Add user to banned users
+                ListProperty bannedUsers = (ListProperty) this.document.getProperty(SharingConstants.SHARING_BANNED_USERS_XPATH);
+                bannedUsers.addValue(this.user);
+                this.document.setProperty(SharingConstants.SCHEMA, SharingConstants.SHARING_BANNED_USERS_NAME, bannedUsers);
+            }
+        } else if (StringUtils.isNotEmpty(this.user) && BooleanUtils.isTrue(this.add)) {
+            if (!this.isBannedUser()) {
+                // Get current permission
+                String permission = (String) this.document.getPropertyValue(SharingConstants.SHARING_LINK_PERMISSION_XPATH);
+
+                // Add or update user permission
+                this.removeUserAce(acl, this.user);
+                ACE ace = new ACE(this.user, permission);
+                acl.add(ace);
+            }
+        } else if (StringUtils.isNotEmpty(this.user) && (this.add == null)) {
+            if (this.isBannedUser()) {
+                // Banned user property
+                Property bannedUser = null;
+                ListProperty bannedUsers = (ListProperty) this.document.getProperty(SharingConstants.SHARING_BANNED_USERS_XPATH);
+                Iterator<Property> iterator = bannedUsers.iterator();
+                while (iterator.hasNext() && (bannedUser == null)) {
+                    Property property = iterator.next();
+                    String value = (String) property.getValue();
+                    if (StringUtils.equals(this.user, value)) {
+                        bannedUser = property;
+                    }
+                }
+
+                if (bannedUser != null) {
+                    // Get current permission
+                    String permission = (String) this.document.getPropertyValue(SharingConstants.SHARING_LINK_PERMISSION_XPATH);
+                    
+                    // Add user permission
+                    this.removeUserAce(acl, this.user);
+                    ACE ace = new ACE(this.user, permission);
+                    acl.add(ace);
+
+                    // Remove user from banned users
+                    bannedUsers.remove(bannedUser);
+                    this.document.setProperty(SharingConstants.SCHEMA, SharingConstants.SHARING_BANNED_USERS_NAME, bannedUsers);
+                }
+            }
         } else {
             // Unknown case
             StringBuilder message = new StringBuilder();
@@ -112,35 +154,11 @@ public class UpdateSharingPermissionsRunner extends SharingRunner {
             message.append("'.");
             throw new ClientException(message.toString());
         }
-        
+
         // Update access control policy
         this.session.setACP(ref, acp, true);
 
         this.session.saveDocument(this.document);
-    }
-
-
-    /**
-     * Get user access control entry.
-     * 
-     * @param acl access control list
-     * @param user user name
-     * @return access control entry
-     */
-    private ACE getUserAce(ACL acl, String user) {
-        ACE result = null;
-        
-        if (CollectionUtils.isNotEmpty(acl)) {
-            Iterator<ACE> iterator = acl.iterator();
-            while (iterator.hasNext() && (result == null)) {
-                ACE ace = iterator.next();
-                if (StringUtils.equals(user, ace.getUsername())) {
-                    result = ace;
-                }
-            }
-        }
-        
-        return result;
     }
 
 
@@ -157,6 +175,41 @@ public class UpdateSharingPermissionsRunner extends SharingRunner {
         if (ace != null) {
             acl.remove(ace);
         }
+    }
+
+
+    /**
+     * Get user access control entry.
+     * 
+     * @param acl access control list
+     * @param user user name
+     * @return access control entry
+     */
+    private ACE getUserAce(ACL acl, String user) {
+        ACE result = null;
+
+        if (CollectionUtils.isNotEmpty(acl)) {
+            Iterator<ACE> iterator = acl.iterator();
+            while (iterator.hasNext() && (result == null)) {
+                ACE ace = iterator.next();
+                if (StringUtils.equals(user, ace.getUsername())) {
+                    result = ace;
+                }
+            }
+        }
+
+        return result;
+    }
+
+
+    /**
+     * Check if user is banned.
+     * 
+     * @return true if user is banned
+     */
+    private boolean isBannedUser() {
+        List<?> bannedUsers = (List<?>) this.document.getPropertyValue(SharingConstants.SHARING_BANNED_USERS_XPATH);
+        return CollectionUtils.isNotEmpty(bannedUsers) && bannedUsers.contains(this.user);
     }
 
 }
