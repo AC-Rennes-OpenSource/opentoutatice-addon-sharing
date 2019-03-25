@@ -15,39 +15,21 @@ import org.nuxeo.ecm.core.api.security.ACL;
 import org.nuxeo.ecm.core.api.security.ACP;
 import org.osivia.opentoutatice.sharing.SharingConstants;
 
+import fr.toutatice.ecm.es.customizer.writers.api.AbstractCustomJsonESWriter;
+
 /**
  * Sharing JSON Elasticsearch document writer.
  *
  * @author Cédric Krommenhoek
  * @see JsonESDocumentWriter
  */
-public class SharingJsonESDocumentWriter extends JsonESDocumentWriter {
+public class SharingJsonESDocumentWriter extends AbstractCustomJsonESWriter {
 
     /**
      * Constructor.
      */
     public SharingJsonESDocumentWriter() {
         super();
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void writeDoc(JsonGenerator jsonGenerator, DocumentModel document, String[] schemas, Map<String, String> contextParameters, HttpHeaders headers)
-            throws IOException {
-        if (document.hasFacet(SharingConstants.FACET)) {
-            jsonGenerator.writeStartObject();
-            this.writeSharingProperties(jsonGenerator, document);
-            this.writeSystemProperties(jsonGenerator, document);
-            this.writeSchemas(jsonGenerator, document, schemas);
-            this.writeContextParameters(jsonGenerator, document, contextParameters);
-            jsonGenerator.writeEndObject();
-            jsonGenerator.flush();
-        } else {
-            super.writeDoc(jsonGenerator, document, schemas, contextParameters, headers);
-        }
     }
 
 
@@ -75,6 +57,24 @@ public class SharingJsonESDocumentWriter extends JsonESDocumentWriter {
             }
         }
         jsonGenerator.writeEndArray();
+    }
+
+
+    @Override
+    public boolean accept(DocumentModel doc) {
+        if (doc.hasFacet(SharingConstants.FACET)) {
+
+            return true;
+        }
+        else return false;
+    }
+
+
+    @Override
+    public void writeData(JsonGenerator jsonGenerator, DocumentModel document, String[] schemas, Map<String, String> contextParameters) throws IOException {
+
+        this.writeSharingProperties(jsonGenerator, document);
+
     }
 
 }

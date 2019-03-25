@@ -12,6 +12,7 @@
     <properties>
         <nuxeo.version>6.0-HF45</nuxeo.version>
         <opentoutatice.version>4.7.9</opentoutatice.version>
+        <ottc.addon.es.customizer.version>4.7</ottc.addon.es.customizer.version>
     </properties>
     
     
@@ -30,6 +31,14 @@
             <artifactId>opentoutatice-ecm-platform-core</artifactId>
             <version>${opentoutatice.version}</version>
         </dependency>
+        
+        <!-- Opentoutatice addon customizer -->
+        <dependency>
+            <groupId>opentoutatice-ecm.elasticsearch-customizer</groupId>
+            <artifactId>opentoutatice-addon-elasticsearch-customizer-ecm</artifactId>
+            <version>${ottc.addon.es.customizer.version}</version>
+        </dependency>
+        
         
     </dependencies>
     
