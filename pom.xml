@@ -4,7 +4,7 @@
     
     <groupId>opentoutatice-ecm.sharing</groupId>
     <artifactId>opentoutatice-sharing</artifactId>
-    <version>4.7-SNAPSHOT</version>
+    <version>4.7.14</version>
     
     <name>OpenToutatice - Sharing addon</name>
     
@@ -108,7 +108,7 @@
         <url>https://github.com/osivia/opentoutatice-addon-sharing</url>
         <connection>scm:git:ssh://git@github.com/osivia/opentoutatice-addon-sharing.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/osivia/opentoutatice-addon-sharing.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>4.7.14</tag>
     </scm>
     
     
