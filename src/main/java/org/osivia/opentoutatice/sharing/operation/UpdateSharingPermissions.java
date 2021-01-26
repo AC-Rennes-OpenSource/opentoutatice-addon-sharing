@@ -36,6 +36,12 @@ public class UpdateSharingPermissions {
     @Param(name = "add", required = false, description = "Add or remove permissions indicator")
     private Boolean add;
 
+    /**
+     * Ban or unban user indicator.
+     */
+    @Param(name = "ban", required = false, description = "Ban or unban user indicator")
+    private Boolean ban;
+
 
     /**
      * Constructor.
@@ -52,7 +58,7 @@ public class UpdateSharingPermissions {
      */
     @OperationMethod
     public void run(DocumentModel document) {
-        SharingRunner runner = new UpdateSharingPermissionsRunner(this.session, document, this.permission, this.user, this.add);
+        SharingRunner runner = new UpdateSharingPermissionsRunner(this.session, document, this.permission, this.user, this.add, this.ban);
         runner.silentRun(false);
     }
 
