@@ -10,8 +10,8 @@
     
     
     <properties>
-        <nuxeo.version>6.1.1</nuxeo.version>
-        <opentoutatice.version>4.7.17</opentoutatice.version>
+        <nuxeo.version>6.1.3</nuxeo.version>
+        <opentoutatice.version>4.7.33</opentoutatice.version>
         <ottc.addon.es.customizer.version>4.7.17.1</ottc.addon.es.customizer.version>
     </properties>
     
