@@ -4,7 +4,7 @@
     
     <groupId>opentoutatice-ecm.sharing</groupId>
     <artifactId>opentoutatice-sharing</artifactId>
-    <version>RAB-4.7.20</version>
+    <version>RAB-4.7.21-RC01-SNAPSHOT</version>
     
     <name>OpenToutatice - Sharing addon</name>
     
