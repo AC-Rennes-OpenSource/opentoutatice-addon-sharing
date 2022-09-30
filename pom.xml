@@ -4,14 +4,14 @@
     
     <groupId>opentoutatice-ecm.sharing</groupId>
     <artifactId>opentoutatice-sharing</artifactId>
-    <version>RAB-4.7.21-RC01-SNAPSHOT</version>
+    <version>RAB-4.7.20</version>
     
     <name>OpenToutatice - Sharing addon</name>
     
     
     <properties>
         <nuxeo.version>RAB-6.1.5</nuxeo.version>
-        <opentoutatice.version>RAB-4.7.44</opentoutatice.version>
+        <opentoutatice.version>RAB-4.7.45</opentoutatice.version>
         <ottc.addon.es.customizer.version>RAB-4.7.18</ottc.addon.es.customizer.version>
     </properties>
     
